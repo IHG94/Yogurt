@@ -1,0 +1,80 @@
+### Program for Light/PIR/Dusk/Thermometer Sensor ###
+### Light comes on and off depending on the PIR but only if its dark outside ###
+### Program shows the use of user defined functions ###
+
+# Function Definiiton
+def setColor(color,param):
+	if color == warm:
+		Red = 201
+		Green = 226
+		Blue = 255
+	elif color == cool:
+		Red = 255
+		Green = 214
+		Blue = 170
+		
+	if param == Red:
+		return Red
+	elif param == Green:
+		return Green
+	else:
+		return Blue
+		
+# Define thermometer actor behaviour 
+actor outside_thermometer():
+	config:
+		# connection to framework in which the model has been implemented
+	states:
+		temp: /temperature
+
+# Define dusk sensor behaviour
+actor dusk_sensor():
+	config:
+		# connection to framework in which the model has been implemented
+	states:
+		night: /active
+
+# Define PIR behaviour
+actor PIR():
+	config: 
+		# connection to framework in which the model has been implemented
+	states:
+		present: /active
+		
+# Define LED light behaviour
+actor LED_Strip(PIR, dusk_sensor, outside_thermometer):
+	config: 
+		# connection to framework in which the model has been implemented
+	states:
+		Red: /R
+		Green: /G
+		Blue: /B
+		brightness: /intensity
+		count: /count
+	actions:
+		on(PIR.present):
+			when(PIR.present = True):
+				when (dusk_sensor.night = True):
+					brightness <- 100
+					when(outside_thermometer.temp >= 20):
+						Red <- setColor(warm, Red) 
+						Green <- setColor(warm, Green)
+						Blue <- setColor(warm, Blue)
+					when(outside_thermometer.temp < 20):
+						Red <- setColor(cool, Red) 
+						Green <- setColor(cool, Green)
+						Blue <- setColor(cool, Blue)
+				else:
+					brightness <- 0
+			else:
+				brightness <- 0
+				
+				
+# ACTOR INITIATION					
+outsideTemp = outside_thermometer(//data/sensors/thermometer[IP='192.168.37.154'])
+nightSensor = dusk_sensor(//data/sensors/dusk[uuid='08a13960b72748f59de419ad2b5ee343'])
+entrancePIR = PIR(//data/sensors/PIR[uuid='d06a66e10b6d4a1285143080c88b029c'])
+entranceLight = LED_Strip(//data/devices/led[IP='192.168.37.45'])
+
+# ACTOR CONNECTION
+entranceLight.input(PIR=entrancePIR, dusk_sensor=nightSensor, outside_thermometer=outsideTemp)

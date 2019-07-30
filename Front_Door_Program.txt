@@ -1,0 +1,74 @@
+### Program for the front door which unlocks if the PIR senses presence and locks ten seconds after
+there is also a keycard reader to unlock it from outside ###
+### Program shows the use of a timer counting down ###
+
+
+# ACTOR BEHAVIOUR DEFINITIONS
+# define PIR behaviour
+actor PIR:
+	config: 
+		# connection to framework in which the model has been implemented
+	states:
+		present: /active
+		brightness: /luminosity
+	inputs:
+		none
+	triggers:
+		self
+	guards:
+		none
+	actions:
+		self
+
+
+# define Keycard reader
+actor card_reader:
+	config:
+		# connection to framework in whcih the model has been implemented
+	states:
+		locked: /locked
+	inputs:
+		none
+	triggers:
+		self
+	guards:
+		none
+	actions:
+		self/defualt	
+		
+# define front door
+actor front_door:
+	config:
+		# connection to framework in which the model has been implemented
+	states:
+		locked: /locked
+	inputs:
+		card_reader
+		PIR
+	triggers:
+		presence = PIR.present
+		keyCard = card_reader.locked
+	guards:
+		present:
+			PIR.present = True
+	actions:
+		trigger presence:
+			when present:
+				locked <- False
+			when not present:
+				fire self_destruct_timer after 00:10.0
+		
+		time.timer(00:00:10.00):
+			when not self_destruct_aborted:
+				locked <- True
+		trigger keyCard
+			locked <- False
+		
+# ACTOR INITIATION				Note: the device instances are specified as they appear in the database of the current version of Igor
+mainDoor = front_door("//data/devices/door[IP='192.168.37.53']")
+entrancePIR = PIR(//data/sensors/PIR[uuid='d06a66e10b6d4a1285143080c88b029c'])
+frontKey = card_reader(//data/sensors/PIR[uuid='d06a66e10b6d4a1285143080c88b029c'])
+
+
+# ACTOR CONNECTIONS
+mainDoor.input(card_reader=frontKey, PIR=entrancePIR)
