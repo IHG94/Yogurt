@@ -39,7 +39,7 @@
 		<states>
 			<state>
 				<localName>locked</localName>
-				<path>/locked</path>
+				<path>locked</path>
 			</state>
 		</states>
 		<actions>

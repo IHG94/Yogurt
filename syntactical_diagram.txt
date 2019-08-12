@@ -1,19 +1,56 @@
 actor collection
 	: actor *
 	
-actor
-	: name 
-	: states 
-	: actions 
-	: instances 
+	actor
+		: name 
+		: states 
+		: (instances)
+		: (actions)  
 	
-name
-	: id string
+		name
+			: id_string
 	
-states
-	: state *
+		states
+			: state *
 	
-state
-	: localName
-	: path
+			state
+				: localName
+				: path
 	
+				localName
+					: name_string
+	
+				path
+					: X_PATH
+	
+		instances
+			: instance *
+			
+			instance
+				: name
+				: path
+				: inputs
+				
+				inputs
+					: input *
+					
+					input
+						: type
+						: id
+						
+						type
+							: actor_name_string
+						
+						id	
+							: instance_name
+							
+		actions
+			: action * 
+			
+			action 
+				: on
+				: guards
+				
+				on
+					: input
+					: state
