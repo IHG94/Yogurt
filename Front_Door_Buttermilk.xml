@@ -45,7 +45,8 @@
 		<actions>
 			<action>
 				<on>
-					<trigger>PIR.present</trigger>
+					<input>PIR</input>
+					<state>present</state>
 				</on>
 				<guards>
 					<when>
@@ -66,7 +67,7 @@
 							<against>False</against>
 						</condition>
 						<timer>
-							<duration>00:00:10.00</duration>
+							<duration>10.0</duration> 
 							<execute>
 								<update>
 									<target>locked</target>
@@ -79,7 +80,8 @@
 			</action>
 			<action>
 				<on>
-					<trigger>card_reader.locked</trigger>
+					<input>card_reader</input>
+					<state>locked</state>
 				</on>
 				<guards>
 					<when>
@@ -100,6 +102,16 @@
 			<instance>
 				<name>mainDoor</name>
 				<path>//data/devices/door[IP='192.168.37.53']</path>
+				<inputs>
+					<input>
+						<type>PIR</type>
+						<id>entrancePIR</id>
+					</input>
+					<input>
+						<type>card_reader</type>
+						<id>frontKey</id>
+					</input>
+				</inputs>	
 			</instance>
 		</instances>
 	</actor>

@@ -22,7 +22,7 @@ actor card_reader():
 	states:
 		locked: /locked
 	actions:
-		self/defualt	
+		self	
 		
 # define front door
 actor front_door(card_reader, PIR):
