@@ -1,0 +1,19 @@
+actor collection
+	: actor *
+	
+actor
+	: name 
+	: states 
+	: actions 
+	: instances 
+	
+name
+	: id string
+	
+states
+	: state *
+	
+state
+	: localName
+	: path
+	
