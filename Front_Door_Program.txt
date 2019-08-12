@@ -65,7 +65,7 @@ actor front_door:
 			locked <- False
 		
 # ACTOR INITIATION				Note: the device instances are specified as they appear in the database of the current version of Igor
-mainDoor = front_door("//data/devices/door[IP='192.168.37.53']")
+mainDoor = front_door(//data/devices/door[IP='192.168.37.53'])
 entrancePIR = PIR(//data/sensors/PIR[uuid='d06a66e10b6d4a1285143080c88b029c'])
 frontKey = card_reader(//data/sensors/PIR[uuid='d06a66e10b6d4a1285143080c88b029c'])
 
