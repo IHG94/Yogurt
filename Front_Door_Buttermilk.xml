@@ -42,7 +42,60 @@
 				<path>locked</path>
 			</state>
 		</states>
-		<actions></actions>
+		<actions>
+			<action>
+				<on>
+					<trigger>PIR.present</trigger>
+				</on>
+				<guards>
+					<when>
+						<condition>
+							<check>PIR.present</check>
+							<operator>=</operator>
+							<against>True</against>
+						</condition>
+						<update>
+							<target>locked</target>
+							<value>False</value>
+						</update>
+					</when>
+					<when>
+						<condition>
+							<check>PIR.present</check>
+							<operator>=</operator>
+							<against>False</against>
+						</condition>
+						<timer>
+							<duration>00:00:10.00</duration>
+							<execute>
+								<update>
+									<target>locked</target>
+									<value>True</value>
+								</update>
+							</execute>
+						</timer>
+					</when>
+				</guards>
+			</action>
+			<action>
+				<on>
+					<trigger>card_reader.locked</trigger>
+				</on>
+				<guards>
+					<when>
+						<condition>
+							<check>card_reader.locked</check>
+							<operator>=</operator>
+							<against>False</against>
+						</condition>
+						<update>
+							<target>locked</target>
+							<value>False</value>
+						</update>
+					</when>
+				</guards>
+			</action>
+		</actions>
 		<instances>
 			<instance>
 				<name>mainDoor</name>
