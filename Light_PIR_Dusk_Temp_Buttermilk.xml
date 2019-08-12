@@ -71,47 +71,44 @@
 		</states>
 		<actions>
 			<action>
-				<triggers>
+				<on>
 					<trigger>PIR.present</trigger>
-				</triggers>
+				</on>
 				<guards>
-					<guard>
-						<when>
+					<whenall>
+						<condition>
 							<check>PIR.present</check>
 							<operator>=</operator>
 							<against>True</against>
-						</when>	
-						<guard>
-							<when>
-								<check>dusk_sensor.night</check>
-								<operator>=</operator>
-								<against>True</against>
-							</when>			
+						</condition>	
+						<condition>
+							<check>dusk_sensor.night</check>
+							<operator>=</operator>
+							<against>True</against>
+						</condition>			
+						<update>
+							<target>brightness</target>
+							<value>100</value>
+						</update>						
+						<when>
+							<condition>
+								<check>outside_thermometer.temp</check>
+								<operator>>=</operator>
+								<against>20</against>
+							</condition>
 							<update>
-								<target>brightness</target>
-								<value>100</value>
-							</update>						
-							<guard>
-								<when>
-									<check>outside_thermometer.temp</check>
-									<operator>>=</operator>
-									<against>20</against>
-								</when>
-								<updateExpressions>
-									<update>
-										<target>Red</target>
-										<value>setColor(warm, Red)</value>
-									</update>
-									<update>
-										<target>Green</target>
-										<value>setColor(warm, Green)</value>
-									</update>
-									<update>
-										<target>Blue</target>
-										<value>setColor(warm, Blue)</value>
-									</update>
-								</updateExpressions>
-							</guard>
+								<target>Red</target>
+								<value>setColor(warm, Red)</value>
+							</update>
+							<update>
+								<target>Green</target>
+								<value>setColor(warm, Green)</value>
+							</update>
+							<update>
+								<target>Blue</target>
+								<value>setColor(warm, Blue)</value>
+							</update>
+						</when>
 							<guard>
 								<when>
 									<check>outside_thermometer.temp</check>
@@ -150,7 +147,7 @@
 								</update>
 							</updateExpressions>
 						</else>
-					</guard>
+					</whenall>
 				</guards>
 			</action>
 		</actions>
@@ -199,5 +196,5 @@
 		</body>
 	</function>
 </function_collection>
-small test
+
 
