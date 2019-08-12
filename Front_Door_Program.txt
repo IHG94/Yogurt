@@ -5,64 +5,42 @@ there is also a keycard reader to unlock it from outside ###
 
 # ACTOR BEHAVIOUR DEFINITIONS
 # define PIR behaviour
-actor PIR:
+actor PIR():
 	config: 
 		# connection to framework in which the model has been implemented
 	states:
 		present: /active
 		brightness: /luminosity
-	inputs:
-		none
-	triggers:
-		self
-	guards:
-		none
 	actions:
 		self
 
 
 # define Keycard reader
-actor card_reader:
+actor card_reader():
 	config:
 		# connection to framework in whcih the model has been implemented
 	states:
 		locked: /locked
-	inputs:
-		none
-	triggers:
-		self
-	guards:
-		none
 	actions:
 		self/defualt	
 		
 # define front door
-actor front_door:
+actor front_door(card_reader, PIR):
 	config:
 		# connection to framework in which the model has been implemented
 	states:
 		locked: /locked
-	inputs:
-		card_reader
-		PIR
-	triggers:
-		presence = PIR.present
-		keyCard = card_reader.locked
-	guards:
-		present:
-			PIR.present = True
 	actions:
-		trigger presence:
-			when present:
+		on(PIR.present):
+			when(PIR.present = True):
 				locked <- False
-			when not present:
-				fire self_destruct_timer after 00:10.0
+			when(PIR.present = False):
+				time.timer(00:00:10.00):
+					locked <- True
+		on(card_reader.locked):
+			when(card_reader.locked = False):
+				locked <- False
 		
-		time.timer(00:00:10.00):
-			when not self_destruct_aborted:
-				locked <- True
-		trigger keyCard
-			locked <- False
 		
 # ACTOR INITIATION				Note: the device instances are specified as they appear in the database of the current version of Igor
 mainDoor = front_door(//data/devices/door[IP='192.168.37.53'])
@@ -71,4 +49,4 @@ frontKey = card_reader(//data/sensors/PIR[uuid='d06a66e10b6d4a1285143080c88b029c
 
 
 # ACTOR CONNECTIONS
-mainDoor.input(card_reader=frontKey, PIR=entrancePIR)
+mainDoor.input(card_reader = frontKey, PIR = entrancePIR)
