@@ -4,8 +4,8 @@ actor collection
 	actor
 		: name 
 		: states 
-		: (instances)
-		: (actions)  
+		: instances
+		: actions  
 	
 		name
 			: id_string
@@ -54,3 +54,51 @@ actor collection
 				on
 					: input
 					: state
+					
+				guards
+					: when
+					: whenall
+					: whenany
+					: else
+				
+					when
+						: condition
+						: update *
+						
+					whenall
+						: condition *
+						: update *
+						
+					whenany
+						: condition *
+						: update *
+						
+					else
+						: update *
+						
+						condition
+							: check
+							: operator
+							: against
+							
+							check
+								: input_state
+								
+							operator 
+								: comparison_operator
+								
+							against
+								: comparison_value
+								
+						update
+							: target
+							: value
+							
+							target
+								: actor_state
+								
+							value
+								: update_to_value
+								
+						
+						
