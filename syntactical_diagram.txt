@@ -48,7 +48,7 @@ actor collection
 			: action * 
 			
 			action 
-				: on
+				: on *
 				: guards
 				
 				on
@@ -60,6 +60,7 @@ actor collection
 					: whenall
 					: whenany
 					: else
+					: then
 				
 					when
 						: condition
@@ -74,6 +75,11 @@ actor collection
 						: update *
 						
 					else
+						: update *
+						
+					then
+						: guards
+						: on 
 						: update *
 						
 						condition
