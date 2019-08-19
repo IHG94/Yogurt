@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from flask_codemirror.fields import CodeMirrorField
 from wtforms.fields import SubmitField
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_codemirror import CodeMirror
 
 
@@ -28,6 +28,8 @@ def index():
     form = MyForm()
     if form.validate_on_submit():
         text = form.source_code.data
+        sourceCode = request.form['sourceCode']
+        print(text)
     return render_template('index.html', form=form)
 
 # check for the main app loop
