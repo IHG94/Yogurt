@@ -1,0 +1,27 @@
+### Program for turning a light on and off with a switch  ###
+
+# ACTOR BEHAVIOR DEFINITIONS 
+
+actor switch():                                     # define switch actor
+    config:
+        # connection to framework
+    states:
+        on: /active
+    actions:
+        self                                  
+
+actor light(switch):
+    config:
+        # connection to framework
+    states:
+        illuminated: /on
+    actions:
+        on(switch.on):
+            illuminated <- switch.on
+    
+# INSTANTIATIONS OF ACTORS
+kitchen_light = light(//data/devices/light[location='Kitchen'])
+kitchen_switch = switch(//data/sensors/switch)
+
+# CONNECT THE INSTANCES OF THE DEVICES
+kitchen_light.input(switch=kitchen_switch)
