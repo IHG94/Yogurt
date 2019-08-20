@@ -109,10 +109,11 @@
 								<value>setColor(warm, Blue)</value>
 							</update>
 						</when>
+						<when>
 							<guard>
 								<when>
 									<check>outside_thermometer.temp</check>
-									<operator><</operator>
+									<operator>&lt;</operator>
 									<against>20</against>
 								</when>
 								<updateExpressions>
@@ -138,7 +139,7 @@
 									</update>
 								</updateExpressions>
 							</else>
-						</guard>
+						</when>
 						<else>
 							<updateExpressions>
 								<update>
@@ -173,28 +174,6 @@
 		</instances>
 	</actor>
 </actor_collection>
-<function_collection>
-	<function>
-		<name>setColor</name>
-		<input>color</input>
-		<input>param</input>
-		<body>
-			if color == warm:
-				Red = 201
-				Green = 226
-				Blue = 255
-			elif color == cool:
-				Red = 255
-				Green = 214
-				Blue = 170
-			if param == Red:
-				return Red
-			elif param == Green:
-				return Green
-			else:
-				return Blue
-		</body>
-	</function>
-</function_collection>
+
 
 

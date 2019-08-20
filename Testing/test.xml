@@ -1,8 +1,8 @@
 <data>
     <items>
-        <item1 name="item1">Ivan</item1>
-        <item1 name="item2">Jack</item1>
-        <item1 name="item3">Steven</item1>
-        <item1 name="item4">Fons</item1>
+        <item>Ivan</item>
+        <item>Jack</item>
+        <item>Steven</item>
+        <item>Fons</item>
     </items>
 </data>
