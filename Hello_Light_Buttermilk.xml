@@ -41,7 +41,7 @@
                         <type>switch</type>
                         <inputID>kitchen_switch</inputID>
                     </in>
-                <ins>
+                </ins>
             </instance>
         </instances>
     </actor>
